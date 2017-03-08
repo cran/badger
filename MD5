@@ -1,0 +1,15 @@
+9617c32343edf9e63f142b4beca212ba *DESCRIPTION
+92bc381143371f5dd7921f81564284a9 *NAMESPACE
+04e5f20d935f9c27ec34a1689b1fd3a5 *R/badge.R
+a406ae858ca8e696bee77cc6896e0688 *R/gitaward.R
+dca1ff47d1156048df3d001734738174 *R/utilities.R
+301e13a180b0d964c5c42199d6f6481d *man/badge_altmetric.Rd
+ef7a5568d0513bb5d30e8cbde2339d45 *man/badge_bioc_download.Rd
+9dc6ee3e968b9141a412dc30b1cb157d *man/badge_bioc_release.Rd
+4074745f335741da2999a9d64bb42040 *man/badge_custom.Rd
+8c29ca3115ab93db277167d5b8d2fbe3 *man/badge_devel.Rd
+9f8469e9eba4661a85ac106dd4ad7eb7 *man/badge_doi.Rd
+c5d093dcbef673665041418e5aa0315d *man/badge_download_bioc.Rd
+31cfca111d6e41293ecafb92c34deb8a *man/badge_github_version.Rd
+86186a399073099430a99ca03fe0d965 *man/gitaward.Rd
+637b0636d59e0fa0194bc3c8e7d687fc *man/ver_devel.Rd
