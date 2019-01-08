@@ -9,12 +9,9 @@
 ##' @author Guangchuang Yu
 ##' @importFrom rvcheck check_bioc
 badge_bioc_release <- function(pkg, color) {
-    p1 <- "[![releaseVersion](https://img.shields.io/badge/release%20version-"
     v <- check_bioc(pkg)$latest_version
-    url <- paste0("https://bioconductor.org/packages/", pkg)
-    p2 <- ".svg?style=flat)]("
-    badge <- paste0(p1, v, "-", color, p2, url, ")")
-    return(badge)
+    url <- paste0("https://www.bioconductor.org/packages/", pkg)
+    badge_custom("release version", v, color, url)
 }
 
 
@@ -28,12 +25,9 @@ badge_bioc_release <- function(pkg, color) {
 ##' @export
 ##' @author Guangchuang Yu
 badge_github_version <- function(pkg, color) {
-    p1 <- "[![develVersion](https://img.shields.io/badge/devel%20version-"
     v <- ver_devel(pkg)
-    p2 <- ".svg?style=flat)]("
     url <- paste0("https://github.com/", pkg)
-    badge <- paste0(p1, v, "-", color, p2, url, ")")
-    return(badge)
+    badge_custom("devel version", v, color, url)
 }
 
 ##' badge of devel version
@@ -55,24 +49,23 @@ badge_devel <- badge_github_version
 ##' @importFrom rvcheck check_github
 ##' @export
 ver_devel <- function (pkg) {
-    flag <- FALSE
-    if (file.exists("DESCRIPTION")) {
-        x <- readLines("DESCRIPTION")
-        flag <- TRUE
-    } else if (file.exists("../DESCRIPTION")) {
-        x <- readLines("../DESCRIPTION")
-        flag <- TRUE
-    }
-    if (flag) {
-        y <- x[grep("^Version", x)]
-        v <- sub("Version: ", "", y)
-        if ((as.numeric(gsub("\\d+\\.(\\d+)\\.\\d+", "\\1", v))%%2) ==
-            1) {
-            return(v)
-        }
-    }
+    ## flag <- FALSE
+    ## if (file.exists("DESCRIPTION")) {
+    ##     x <- readLines("DESCRIPTION")
+    ##     flag <- TRUE
+    ## } else if (file.exists("../DESCRIPTION")) {
+    ##     x <- readLines("../DESCRIPTION")
+    ##     flag <- TRUE
+    ## }
+    ## if (flag) {
+    ##     y <- x[grep("^Version", x)]
+    ##     v <- sub("Version: ", "", y)
+    ##     if ((as.numeric(gsub("\\d+\\.(\\d+)\\.\\d+", "\\1", v))%%2) == 1) {
+    ##         return(v)
+    ##     }
+    ## }
 
-    return(check_github(pkg)$latest_version)
+    check_github(pkg)$latest_version
 }
 
 ##' badge of bioconductor download number
@@ -102,13 +95,10 @@ badge_bioc_download <- function(pkg, by, color, type="distinct") {
     } else if (by == "month") {
         res <- nb[length(nb) -1]
     }
+    res <- paste0(res, "/", by)
 
     url <- paste0("https://bioconductor.org/packages/stats/bioc/", pkg)
-
-    p1 <- paste0("[![", by, "](https://img.shields.io/badge/downloads-")
-    p2 <- paste0(res, "/", by, "-", color, ".svg?style=flat)](", url, ")")
-    badge <- paste0(p1, p2)
-    return(badge)
+    badge_custom("download", res, color, url)
 }
 
 ##' official Bioconductor download badge
@@ -135,14 +125,11 @@ badge_download_bioc <- function(pkg) {
 ##' @return badge
 ##' @author Guangchuang
 ##' @export
+##' @examples
+##' badge_doi("10.1111/2041-210X.12628", "green")
 badge_doi <- function(doi, color) {
-    url <- paste0("http://dx.doi.org/",doi)
-    p1 <- "[![doi](https://img.shields.io/badge/doi-"
-    p2 <- ".svg?style=flat)]("
-
-    doi <- gsub('-', '--', doi)
-    badge <- paste0(p1, doi, "-", color, p2, url, ")")
-    return(badge)
+    url <- paste0("https://doi.org/",doi)
+    badge_custom("doi", doi, color, url)
 }
 
 ##' custom badge
@@ -159,11 +146,13 @@ badge_doi <- function(doi, color) {
 badge_custom <- function(x, y, color, url=NULL) {
     x <- gsub(" ", "%20", x)
     y <- gsub(" ", "%20", y)
-    badge <- paste0("![](https://img.shields.io/badge/", x, "-", y, "-", color, ".svg?style=flat)")
+    x <- gsub('-', '--', x)
+    y <- gsub('-', '--', y)
+    badge <- paste0("![](https://img.shields.io/badge/", x, "-", y, "-", color, ".svg)")
     if (is.null(url))
         return(badge)
 
-    paste("[", badge, "](", url, ")")
+    paste0("[", badge, "](", url, ")")
 }
 
 ##' altmetric badge
@@ -178,12 +167,135 @@ badge_custom <- function(x, y, color, url=NULL) {
 ##' badge_altmetric("2788597", "blue")
 ##' @export
 badge_altmetric <- function(id, color) {
-    ## [![Altmetric](https://img.shields.io/badge/Altmetric-`r x <- readLines("https://www.altmetric.com/details/2788597"); gsub("^.*score=(\\d+)\\D+.*$", '\\1', x[grep("style=donut&score=", x)])`-blue.svg?style=flat)](https://www.altmetric.com/details/2788597)
     url <- paste0("https://www.altmetric.com/details/", id)
-    p1 <- "[![Altmetric](https://img.shields.io/badge/Altmetric-"
     x <- readLines(url)
     score <- gsub("^.*score=(\\d+)\\D+.*$", '\\1', x[grep("style=donut&score=", x)])
-    p2 <- paste0("-", color, ".svg?style=flat)](")
-    badge <- paste0(p1, score, p2, url, ")")
-    return(badge)
+    badge_custom("Altmetric", score, color, url)
+}
+
+##' SCI citation badge
+##'
+##'
+##' @title badge_sci_citation
+##' @param url Web of Science url
+##' @param color color of badge
+##' @return badge in markdown syntax
+##' @author Guangchuang
+##' @export
+badge_sci_citation <- function(url, color) {
+    x <- suppressWarnings(readLines(url))
+    cites <- sub("\\D+(\\d+)\\D+", "\\1", x[grep("Times Cited$", x)])
+    badge_custom("cited in Web of Science Core Collection", cites, color, url)
+}
+
+##' lifecycle badge
+##'
+##'
+##' @title badge_lifcycle
+##' @param stage lifecycle stage See \href{https://www.tidyverse.org/lifecycle/}{https://www.tidyverse.org/lifecycle/}
+##' @param color color of the badge. If missing, the color is determined by the stage.
+##' @return badge in markdown syntax
+##' @export
+##' @author Gregor de Cillia
+badge_lifecycle <- function(stage = "experimental", color = NULL) {
+  url <- paste0("https://www.tidyverse.org/lifecycle/#", stage)
+  if (is.null(color))
+    color <- switch(stage, experimental = "orange", maturing = "blue", stable = "brightgreen",
+                    retired = "orange", archived = "red", dormant = "blue", questioning = "blue",
+                    stop("invalid stage: ", stage))
+  badge_custom("lifecycle", stage, color, url)
+}
+
+##' last commit badge
+##'
+##'
+##' @title badge_last_commit
+##' @param ref Reference for a GitHub repository
+##' @return badge in markdown syntax
+##' @export
+##' @author Gregor de Cillia
+badge_last_commit <- function(ref) {
+  url <- paste0("https://github.com/", ref, "/commits/master")
+  svg <- paste0("https://img.shields.io/github/last-commit/", ref, ".svg")
+  paste0("[![](", svg, ")](", url, ")")
+}
+
+##' reavis-ci badge
+##'
+##'
+##' @title badge_travis
+##' @param ref Reference for a GitHub repository
+##' @return badge in markdown syntax
+##' @export
+##' @author Gregor de Cillia
+badge_travis <- function(ref) {
+  svg <- paste0("https://travis-ci.org/", ref, ".svg?branch=master")
+  url <- paste0("https://travis-ci.org/", ref)
+  paste0("[![](", svg, ")](", url, ")")
+}
+
+##' badge of GitHub code size
+##'
+##'
+##' @title badge_code_size
+##' @param ref Reference for a GitHub repository
+##' @return badge in markdown syntax
+##' @export
+##' @author Gregor de Cillia
+badge_code_size <- function(ref) {
+  svg <- paste0("https://img.shields.io/github/languages/code-size/",
+                ref, ".svg")
+  url <- paste0("https://github.com/", ref)
+  placeholder <- "GitHub code size in bytes"
+  paste0("[![](", svg, ")](", url, ")")
+}
+
+##' badge of CRAN version
+##'
+##'
+##' @title badge_cran_release
+##' @param pkg package
+##' @param color color of badge
+##' @return badge in markdown syntax
+##' @export
+##' @author Gregor de Cillia
+badge_cran_release <- function(pkg, color) {
+  svg <- paste0("https://www.r-pkg.org/badges/version/", pkg, "?color=", color)
+  url <- paste0("https://cran.r-project.org/package=", pkg)
+  placeholder <- "CRAN link"
+  paste0("[![](", svg, ")](", url, ")")
+}
+
+##' badge of CRAN release version
+##'
+##'
+##' @title badge_coveralls
+##' @param ref Reference for a GitHub repository
+##' @return badge in markdown syntax
+##' @export
+##' @author Gregor de Cillia
+badge_coveralls <- function(ref) {
+  svg = paste0("https://coveralls.io/repos/github/", ref, "/badge.svg?branch=master")
+  url <- paste0("https://coveralls.io/repos/github/", ref)
+  placeholder <- "coveralls link"
+  paste0("[![](", svg, ")](", url, ")")
+}
+
+##' badge of CRAN downloads
+##'
+##'
+##' @title badge_cran_download
+##' @param pkg package
+##' @param type type of stats. \code{last-month}, \code{last-week} or \code{"grand-total"}
+##' @param color color of badge
+##' @return badge in markdown syntax
+##' @export
+##' @author Gregor de Cillia
+badge_cran_download <- function(pkg, type = c("last-month", "last-week", "grand-total"),
+																color = "green") {
+	type <- match.arg(type)
+  svg <- paste0("http://cranlogs.r-pkg.org/badges/", type, "/", pkg, "?color=", color)
+  url <- paste0("https://cran.r-project.org/package=", pkg)
+  placeholder <- "CRAN link"
+  paste0("[![](", svg, ")](", url, ")")
 }
