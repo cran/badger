@@ -4,16 +4,18 @@
 \alias{badge_coveralls}
 \title{badge_coveralls}
 \usage{
-badge_coveralls(ref)
+badge_coveralls(ref = NULL)
 }
 \arguments{
-\item{ref}{Reference for a GitHub repository}
+\item{ref}{Reference for a GitHub repository. If \code{NULL}
+(the default), the reference is determined by the URL
+field in the DESCRIPTION file.}
 }
 \value{
 badge in markdown syntax
 }
 \description{
-badge of CRAN release version
+badge of coveralls code coverage
 }
 \author{
 Gregor de Cillia

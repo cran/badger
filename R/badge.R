@@ -2,13 +2,15 @@
 ##'
 ##'
 ##' @title badge_bioc_release
-##' @param pkg package
+##' @param pkg package. If \code{NULL} (the default) the package
+##'   is determined via the DESCRIPTION file.
 ##' @param color badge color
 ##' @return badge in markdown syntax
 ##' @export
 ##' @author Guangchuang Yu
 ##' @importFrom rvcheck check_bioc
-badge_bioc_release <- function(pkg, color) {
+badge_bioc_release <- function(pkg = NULL, color) {
+    pkg <- currentPackageName(pkg)
     v <- check_bioc(pkg)$latest_version
     url <- paste0("https://www.bioconductor.org/packages/", pkg)
     badge_custom("release version", v, color, url)
@@ -19,12 +21,14 @@ badge_bioc_release <- function(pkg, color) {
 ##'
 ##'
 ##' @title badge_github_version
-##' @param pkg package
+##' @param pkg package. If \code{NULL} (the default) the package
+##'   is determined via the DESCRIPTION file.
 ##' @param color badge color
 ##' @return badge in markdown syntax
 ##' @export
 ##' @author Guangchuang Yu
-badge_github_version <- function(pkg, color) {
+badge_github_version <- function(pkg = NULL, color) {
+    pkg <- currentGitHubRef(pkg)
     v <- ver_devel(pkg)
     url <- paste0("https://github.com/", pkg)
     badge_custom("devel version", v, color, url)
@@ -43,12 +47,13 @@ badge_devel <- badge_github_version
 ##'
 ##'
 ##' @title ver_devel
-##' @param pkg package name
+##' @param pkg package. If \code{NULL} (the default) the package
+##'   is determined via the DESCRIPTION file.
 ##' @return devel version
 ##' @author Guangchuang
 ##' @importFrom rvcheck check_github
 ##' @export
-ver_devel <- function (pkg) {
+ver_devel <- function (pkg = NULL) {
     ## flag <- FALSE
     ## if (file.exists("DESCRIPTION")) {
     ##     x <- readLines("DESCRIPTION")
@@ -64,7 +69,7 @@ ver_devel <- function (pkg) {
     ##         return(v)
     ##     }
     ## }
-
+    pkg <- currentGitHubRef(pkg)
     check_github(pkg)$latest_version
 }
 
@@ -72,7 +77,8 @@ ver_devel <- function (pkg) {
 ##'
 ##'
 ##' @title badge_bioc_download
-##' @param pkg package
+##' @param pkg package. If \code{NULL} (the default) the package
+##'   is determined via the DESCRIPTION file.
 ##' @param by one of total or month
 ##' @param color badge color
 ##' @param type one of distinct and total
@@ -80,7 +86,8 @@ ver_devel <- function (pkg) {
 ##' @export
 ##' @author Guangchuang Yu
 ##' @importFrom dlstats bioc_stats
-badge_bioc_download <- function(pkg, by, color, type="distinct") {
+badge_bioc_download <- function(pkg = NULL, by, color, type="distinct") {
+    pkg <- currentPackageName(pkg)
     type <- match.arg(type, c("distinct", "total"))
     dl <- "Nb_of_downloads"
     if (type == "distinct")
@@ -101,20 +108,26 @@ badge_bioc_download <- function(pkg, by, color, type="distinct") {
     badge_custom("download", res, color, url)
 }
 
-##' official Bioconductor download badge
+##' official Bioconductor download badge (download ranking)
 ##'
 ##'
-##' @title badge_download_bioc
-##' @param pkg package
-##' @return bioc download badge
+##' @title badge_bioc_download_rank
+##' @rdname biocRanking
+##' @param pkg package. If \code{NULL} (the default) the package
+##'   is determined via the DESCRIPTION file.
+##' @return bioc download ranking badge
 ##' @export
 ##' @author guangchuang yu
-badge_download_bioc <- function(pkg) {
-    paste0("[![download](http://www.bioconductor.org/shields/downloads/",
+badge_bioc_download_rank <- function(pkg = NULL) {
+    pkg <- currentPackageName(pkg)
+    paste0("[![download](http://www.bioconductor.org/shields/downloads/release/",
            pkg, ".svg)](https://bioconductor.org/packages/stats/bioc/", pkg, ")")
 
 }
 
+##' @rdname biocRanking
+##' @export
+badge_download_bioc <- badge_bioc_download_rank
 
 ##' doi badge
 ##'
@@ -210,11 +223,14 @@ badge_lifecycle <- function(stage = "experimental", color = NULL) {
 ##'
 ##'
 ##' @title badge_last_commit
-##' @param ref Reference for a GitHub repository
+##' @param ref Reference for a GitHub repository. If \code{NULL}
+##'   (the default), the reference is determined by the URL
+##'   field in the DESCRIPTION file.
 ##' @return badge in markdown syntax
 ##' @export
 ##' @author Gregor de Cillia
-badge_last_commit <- function(ref) {
+badge_last_commit <- function(ref = NULL) {
+  ref <- currentGitHubRef(ref)
   url <- paste0("https://github.com/", ref, "/commits/master")
   svg <- paste0("https://img.shields.io/github/last-commit/", ref, ".svg")
   paste0("[![](", svg, ")](", url, ")")
@@ -224,11 +240,14 @@ badge_last_commit <- function(ref) {
 ##'
 ##'
 ##' @title badge_travis
-##' @param ref Reference for a GitHub repository
+##' @param ref Reference for a GitHub repository. If \code{NULL}
+##'   (the default), the reference is determined by the URL
+##'   field in the DESCRIPTION file.
 ##' @return badge in markdown syntax
 ##' @export
 ##' @author Gregor de Cillia
-badge_travis <- function(ref) {
+badge_travis <- function(ref = NULL) {
+  ref <- currentGitHubRef(ref)
   svg <- paste0("https://travis-ci.org/", ref, ".svg?branch=master")
   url <- paste0("https://travis-ci.org/", ref)
   paste0("[![](", svg, ")](", url, ")")
@@ -238,11 +257,14 @@ badge_travis <- function(ref) {
 ##'
 ##'
 ##' @title badge_code_size
-##' @param ref Reference for a GitHub repository
+##' @param ref Reference for a GitHub repository. If \code{NULL}
+##'   (the default), the reference is determined by the URL
+##'   field in the DESCRIPTION file.
 ##' @return badge in markdown syntax
 ##' @export
 ##' @author Gregor de Cillia
-badge_code_size <- function(ref) {
+badge_code_size <- function(ref = NULL) {
+  ref <- currentGitHubRef(ref)
   svg <- paste0("https://img.shields.io/github/languages/code-size/",
                 ref, ".svg")
   url <- paste0("https://github.com/", ref)
@@ -254,30 +276,51 @@ badge_code_size <- function(ref) {
 ##'
 ##'
 ##' @title badge_cran_release
-##' @param pkg package
+##' @param pkg package. If \code{NULL} (the default) the package
+##'   is determined via the DESCRIPTION file.
 ##' @param color color of badge
 ##' @return badge in markdown syntax
 ##' @export
 ##' @author Gregor de Cillia
-badge_cran_release <- function(pkg, color) {
+badge_cran_release <- function(pkg = NULL, color) {
+  pkg <- currentPackageName(pkg)
   svg <- paste0("https://www.r-pkg.org/badges/version/", pkg, "?color=", color)
   url <- paste0("https://cran.r-project.org/package=", pkg)
   placeholder <- "CRAN link"
   paste0("[![](", svg, ")](", url, ")")
 }
 
-##' badge of CRAN release version
+##' badge of coveralls code coverage
 ##'
 ##'
 ##' @title badge_coveralls
-##' @param ref Reference for a GitHub repository
+##' @param ref Reference for a GitHub repository. If \code{NULL}
+##'   (the default), the reference is determined by the URL
+##'   field in the DESCRIPTION file.
 ##' @return badge in markdown syntax
 ##' @export
 ##' @author Gregor de Cillia
-badge_coveralls <- function(ref) {
+badge_coveralls <- function(ref = NULL) {
+  ref <- currentGitHubRef(ref)
   svg = paste0("https://coveralls.io/repos/github/", ref, "/badge.svg?branch=master")
-  url <- paste0("https://coveralls.io/repos/github/", ref)
-  placeholder <- "coveralls link"
+  url <- paste0("https://coveralls.io/github/", ref)
+  paste0("[![](", svg, ")](", url, ")")
+}
+
+##' badge of codecov code coverage
+##'
+##'
+##' @title badge_codecov
+##' @param ref Reference for a GitHub repository. If \code{NULL}
+##'   (the default), the reference is determined by the URL
+##'   field in the DESCRIPTION file.
+##' @return badge in markdown syntax
+##' @export
+##' @author Gregor de Cillia
+badge_codecov <- function(ref = NULL) {
+  ref <- currentGitHubRef(ref)
+  svg = paste0("https://codecov.io/gh/", ref, "/branch/master/graph/badge.svg")
+  url <- paste0("https://codecov.io/gh/", ref)
   paste0("[![](", svg, ")](", url, ")")
 }
 
@@ -285,17 +328,53 @@ badge_coveralls <- function(ref) {
 ##'
 ##'
 ##' @title badge_cran_download
-##' @param pkg package
+##' @param pkg package. If \code{NULL} (the default) the package
+##'   is determined via the DESCRIPTION file.
 ##' @param type type of stats. \code{last-month}, \code{last-week} or \code{"grand-total"}
 ##' @param color color of badge
 ##' @return badge in markdown syntax
 ##' @export
 ##' @author Gregor de Cillia
-badge_cran_download <- function(pkg, type = c("last-month", "last-week", "grand-total"),
-																color = "green") {
+badge_cran_download <- function(pkg = NULL, type = c("last-month", "last-week", "grand-total"),
+                                color = "green") {
+  pkg <- currentPackageName(pkg)
 	type <- match.arg(type)
   svg <- paste0("http://cranlogs.r-pkg.org/badges/", type, "/", pkg, "?color=", color)
   url <- paste0("https://cran.r-project.org/package=", pkg)
   placeholder <- "CRAN link"
   paste0("[![](", svg, ")](", url, ")")
 }
+
+##' dependency badge
+##'
+##' @title badge_depedencies
+##' @param pkg package. If \code{NULL} (the default) the package
+##'   is determined via the DESCRIPTION file.
+##' @return badge in markdown syntax
+##' @export
+##' @author Dirk Eddelbuettel
+badge_dependencies <- function(pkg = NULL) {
+    pkg <- currentPackageName(pkg)
+    badge <- paste0("https://tinyverse.netlify.com/badge/", pkg)
+    url <- paste0("https://cran.r-project.org/package=", pkg)
+    placeholder <- "Dependencies"
+    paste0("[![", placeholder, "](", badge, ")](", url, ")")
+}
+
+##' CRAN checks badge
+##'
+##' @title badge_cran_checks
+##' @param pkg package. If \code{NULL} (the default) the package
+##'   is determined via the DESCRIPTION file.
+##' @return badge in Markdown syntax
+##' @export
+##' @author Scott Chamberlain (badges API), Maëlle Salmon (function)
+badge_cran_checks <- function(pkg = NULL) {
+  pkg <- currentPackageName(pkg)
+  badge <- paste0("https://cranchecks.info/badges/summary/", pkg)
+  url <- paste0("https://cran.r-project.org/web/checks/check_results_",
+                pkg, ".html")
+  placeholder <- "CRAN checks"
+  paste0("[![", placeholder, "](", badge, ")](", url, ")")
+}
+
