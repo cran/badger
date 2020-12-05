@@ -322,12 +322,17 @@ badge_coveralls <- function(ref = NULL) {
 ##' @param ref Reference for a GitHub repository. If \code{NULL}
 ##'   (the default), the reference is determined by the URL
 ##'   field in the DESCRIPTION file.
+##' @param token Codecov graphing token, needed for private repositories.
+##'   It can be obtained at https://codecov.io/gh/USER/REPO/branch/master/graph/
 ##' @return badge in markdown syntax
 ##' @export
 ##' @author Gregor de Cillia
-badge_codecov <- function(ref = NULL) {
+badge_codecov <- function(ref = NULL, token = NULL) {
   ref <- currentGitHubRef(ref)
   svg = paste0("https://codecov.io/gh/", ref, "/branch/master/graph/badge.svg")
+  if (!is.null(token)) {
+    svg <- paste0(svg, "?token=", token)
+  }
   url <- paste0("https://codecov.io/gh/", ref)
   paste0("[![](", svg, ")](", url, ")")
 }
@@ -427,5 +432,20 @@ badge_github_actions <- function(ref = NULL, action = "R-CMD-check") {
   svg <- paste0("https://github.com/", ref, "/workflows/", action, "/badge.svg")
   url <- paste0("https://github.com/", ref, "/actions")
   paste0("[![R build status](", svg, ")](", url, ")")
+}
+
+##' CodeFactor badge
+##'
+##' @param ref Reference for a GitHub repository. If \code{NULL} (the default),
+##'   the reference is determined by the URL field in the DESCRIPTION file.
+##'
+##' @return badge in markdown syntax
+##' @export
+##' @author Alexander Rossell Hayes
+badge_codefactor <- function(ref = NULL) {
+  ref <- currentGitHubRef(ref)
+  url <- paste0("https://www.codefactor.io/repository/github/", ref)
+  svg <- paste0(url, "/badge")
+  paste0("[![CodeFactor](", svg, ")](", url, ")")
 }
 
