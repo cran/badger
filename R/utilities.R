@@ -20,3 +20,8 @@ currentGitHubRef <- function(ref) {
 	ref <- gsub("https://github.com/", "", url)
 	ref
 }
+
+defaultBranch <- function(branch) {
+  if (!is.null(branch)) {return(branch)}
+  usethis::git_branch_default()
+}
