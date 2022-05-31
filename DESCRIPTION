@@ -1,6 +1,6 @@
 Package: badger
 Title: Badge for R Package
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: c(
         person("Guangchuang", "Yu",          email = "guangchuangyu@gmail.com",    role = c("aut", "cre"), comment = c(ORCID = "0000-0002-6485-8781")),
         person("Gregor", "de Cillia",        email = "de.cillia.gregor@gmail.com", role = "ctb"),
@@ -21,7 +21,7 @@ BugReports: https://github.com/GuangchuangYu/badger/issues
 Encoding: UTF-8
 RoxygenNote: 7.1.2
 NeedsCompilation: no
-Packaged: 2022-03-28 07:05:56 UTC; ygc
+Packaged: 2022-05-30 03:12:47 UTC; ygc
 Author: Guangchuang Yu [aut, cre] (<https://orcid.org/0000-0002-6485-8781>),
   Gregor de Cillia [ctb],
   Dirk Eddelbuettel [ctb],
@@ -33,4 +33,4 @@ Author: Guangchuang Yu [aut, cre] (<https://orcid.org/0000-0002-6485-8781>),
   Waldir Leoncio [ctb]
 Maintainer: Guangchuang Yu <guangchuangyu@gmail.com>
 Repository: CRAN
-Date/Publication: 2022-03-28 07:30:08 UTC
+Date/Publication: 2022-05-31 16:10:06 UTC
