@@ -1,7 +1,7 @@
-d5d6d36e4f8de67cb863675238bb21cf *DESCRIPTION
+22828eaacf1abf15cf4fbda1e8b0b830 *DESCRIPTION
 fd668ca2858b680f715616f206864f92 *NAMESPACE
-574c96b7d2df2cc1efd916ea8d8e4520 *NEWS.md
-c58ea414f5104206b144afcfc5fa3787 *R/badge.R
+dffec1be10278a99cffe205c9eeb1757 *NEWS.md
+d5d8a7c1a7c8a14f954a6b83b299816d *R/badge.R
 40fa28d46a07e4be4e026636e62695ec *R/gitaward.R
 ef31d8b4d22ed0f869d34a4d42aefdec *R/utilities.R
 e4f09faf2c94ea490a83728f8f69f217 *man/badge_altmetric.Rd
@@ -31,5 +31,5 @@ d8ac4fa9e12f2908ba017ea692f0ea74 *man/badge_travis.Rd
 27596148c141183891d39d78c6e84b8e *man/gitaward.Rd
 21e9e84bcd623b3662b0eb6b125873bd *man/ver_devel.Rd
 01f7ad018aa3df9d9b54d864c4cd186a *tests/testthat.R
-ff83f679a9555e4d506e30ae34bd160f *tests/testthat/test-badges.R
+3c5dca9a4b1b6ac153552442ea1a2bed *tests/testthat/test-badges.R
 899e358221ebda6d309241e3b7416ad4 *tests/testthat/test-utilities.R
