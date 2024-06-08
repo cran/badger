@@ -1,3 +1,12 @@
+# badger 0.2.4
+
++ add github release badge and test (2024-06-07, Fri, #54)
++ update codecov badge test to match merge (2023-07-25, Tue, #53)
++ update codecov badge (2023-07-25, Tue, #53)
++ update cran check badges (#52)
++ update r-universe badge (#51)
++ allows `badge_cran_checks` to obtain 'worst' instead of 'summary' (default) badges (2023-02-10, Fri, #49)
+
 # badger 0.2.3
 
 + fixed `badge_codecov` URL (2023-01-28, Sat, #44, #46)

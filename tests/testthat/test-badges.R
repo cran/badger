@@ -64,6 +64,14 @@ test_that("CRAN badges output as expected", {
       "CRAN checks"
     )
   )
+  expect_equal(
+    badge_cran_checks("badger", worst = TRUE),
+    assembleBadgeOutput(
+      "badges.cranchecks.info/worst/badger.svg",
+      "cran.r-project.org/web/checks/check_results_badger.html",
+      "CRAN checks"
+    )
+  )
 })
 
 test_that("Other badges output as expected", {
@@ -171,7 +179,7 @@ test_that("Other badges output as expected", {
     badge_codecov("GuangchuangYu/badger", branch="master"),
     assembleBadgeOutput(
       "codecov.io/gh/GuangchuangYu/badger/branch/master/graph/badge.svg",
-      "codecov.io/gh/GuangchuangYu/badger"
+      "app.codecov.io/gh/GuangchuangYu/badger"
     )
   )
   expect_equal(
@@ -196,6 +204,13 @@ test_that("Other badges output as expected", {
       "www.codefactor.io/repository/github/GuangchuangYu/badger/badge",
       "www.codefactor.io/repository/github/GuangchuangYu/badger",
       "CodeFactor",
+    )
+  )
+  expect_equal(
+    badge_github_release("tidyverse/dplyr"),
+    assembleBadgeOutput(
+      "img.shields.io/github/v/release/tidyverse/dplyr",
+      "github.com/tidyverse/dplyr/releases"
     )
   )
 })

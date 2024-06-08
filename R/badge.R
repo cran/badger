@@ -398,7 +398,7 @@ badge_codecov <- function(ref = NULL, token = NULL, branch = NULL) {
   if (!is.null(token)) {
     svg <- paste0(svg, "?token=", token)
   }
-  url <- paste0("https://codecov.io/gh/", ref)
+  url <- paste0("https://app.codecov.io/gh/", ref)
   paste0("[![](", svg, ")](", url, ")")
 }
 
@@ -445,13 +445,20 @@ badge_dependencies <- function(pkg = NULL) {
 ##' @title badge_cran_checks
 ##' @param pkg package. If \code{NULL} (the default) the package
 ##'   is determined via the DESCRIPTION file.
+##' @param worst logical; if FALSE (default) return "summary" badge. If TRUE,
+##'   return "worst" badge.
 ##' @return badge in Markdown syntax
 ##' @export
 ##' @author Scott Chamberlain (badges API), Maëlle Salmon (function)
-badge_cran_checks <- function(pkg = NULL) {
+badge_cran_checks <- function(pkg = NULL, worst = FALSE) {
   pkg <- currentPackageName(pkg)
+  stopifnot(is.logical(worst))
   # badge <- paste0("https://cranchecks.info/badges/summary/", pkg)
-  badge <- paste0("https://badges.cranchecks.info/summary/", pkg, ".svg")
+  badge <- if (worst) {
+    badge <- paste0("https://badges.cranchecks.info/worst/", pkg, ".svg")
+  } else {
+    badge <- paste0("https://badges.cranchecks.info/summary/", pkg, ".svg")
+  }
   url <- paste0("https://cran.r-project.org/web/checks/check_results_",
                 pkg, ".html")
   placeholder <- "CRAN checks"
@@ -538,6 +545,21 @@ badge_runiverse <- function(pkg = NULL, user = NULL) {
   paste0(
     "[![r-universe status badge]",
     "(https://", user, ".r-universe.dev/badges/", pkg, ")]",
-    "(https://", user, ".r-universe.dev/ui#package:", pkg, ")"
+    "(https://", user, ".r-universe.dev/", pkg, ")"
   )
+}
+
+##' GitHub Release badge
+##'
+##' @param ref Reference for a GitHub repository. If \code{NULL} (the default),
+##'   the reference is determined by the URL field in the DESCRIPTION file.
+##'
+##' @return badge in markdown syntax
+##' @export
+##' @author Matt Schuelke
+badge_github_release <- function(ref = NULL) {
+  ref <- currentGitHubRef(ref)
+  svg <- paste0("https://img.shields.io/github/v/release/", ref)
+  url <- paste0("https://github.com/", ref, "/releases")
+  paste0("[![](", svg, ")](", url, ")")
 }
