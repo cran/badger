@@ -1,3 +1,9 @@
+# badger 0.2.4.001
+
++ add `alt` parameter for specifying alternative text (2025-08-01, Fri, #59)
++ use `git_default_branch` as `git_branch_default` was deprecated (2025-08-01, Fri, #58)
++ update netlify url (2024-07-11, Thu, #56)
+
 # badger 0.2.4
 
 + add github release badge and test (2024-06-07, Fri, #54)

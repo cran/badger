@@ -1,6 +1,6 @@
 Package: badger
 Title: Badge for R Package
-Version: 0.2.4
+Version: 0.2.5
 Authors@R: c(
         person("Guangchuang", "Yu",          email = "guangchuangyu@gmail.com",    role = c("aut", "cre"), comment = c(ORCID = "0000-0002-6485-8781")),
         person("Gregor", "de Cillia",        email = "de.cillia.gregor@gmail.com", role = "ctb"),
@@ -20,20 +20,21 @@ ByteCompile: true
 URL: https://github.com/GuangchuangYu/badger
 BugReports: https://github.com/GuangchuangYu/badger/issues
 Encoding: UTF-8
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 NeedsCompilation: no
-Packaged: 2024-06-08 09:49:58 UTC; HUAWEI
-Author: Guangchuang Yu [aut, cre] (<https://orcid.org/0000-0002-6485-8781>),
+Packaged: 2025-07-31 17:50:40 UTC; HUAWEI
+Author: Guangchuang Yu [aut, cre] (ORCID:
+    <https://orcid.org/0000-0002-6485-8781>),
   Gregor de Cillia [ctb],
   Dirk Eddelbuettel [ctb],
   Maëlle Salmon [ctb],
-  Robrecht Cannoodt [ctb] (<https://orcid.org/0000-0003-3641-729X>,
-    rcannood),
-  Alexander Rossell Hayes [ctb] (<https://orcid.org/0000-0001-9412-0457>,
-    rossellhayes),
+  Robrecht Cannoodt [ctb] (ORCID:
+    <https://orcid.org/0000-0003-3641-729X>, github: rcannood),
+  Alexander Rossell Hayes [ctb] (ORCID:
+    <https://orcid.org/0000-0001-9412-0457>, github: rossellhayes),
   Waldir Leoncio [ctb],
-  Matthew Schuelke [ctb] (<https://orcid.org/0000-0001-5755-1725>,
-    the-mad-statter)
+  Matthew Schuelke [ctb] (ORCID: <https://orcid.org/0000-0001-5755-1725>,
+    github: the-mad-statter)
 Maintainer: Guangchuang Yu <guangchuangyu@gmail.com>
 Repository: CRAN
-Date/Publication: 2024-06-08 10:20:02 UTC
+Date/Publication: 2025-07-31 18:32:03 UTC
